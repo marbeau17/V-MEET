@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow">
+    <title>V-Meet | ビデオ通話</title>
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link href="dist/output.css" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@0.263.1"></script>
+</head>
+
+<body class="bg-slate-900 text-white min-h-screen overflow-hidden">
+
+    <!-- Navigation (simple: logo + home link only) -->
+    <nav aria-label="メインナビゲーション" class="fixed w-full z-50 bg-slate-900/80 backdrop-blur-lg px-6 py-4 flex justify-between items-center border-b border-slate-800">
+        <a href="index.html" class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-[#FF6B6B] rounded-xl flex items-center justify-center text-white shadow-lg">
+                <i data-lucide="video"></i>
+            </div>
+            <span class="text-2xl font-bold tracking-tight text-white">V-Meet</span>
+        </a>
+        <a href="index.html" class="text-slate-400 hover:text-white transition-colors text-sm font-bold flex items-center gap-1">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            ホーム
+        </a>
+    </nav>
+
+    <!-- Screen Announcer for accessibility -->
+    <div id="screen-announcer" class="sr-only" aria-live="assertive" role="status"></div>
+
+    <!-- ============================================
+         Screen 1: Waiting (matching queue)
+         ============================================ -->
+    <div id="screen-waiting" class="screen flex flex-col items-center justify-center min-h-screen px-6">
+
+        <!-- Pulse animation -->
+        <div class="relative mb-8">
+            <!-- Outer pulse rings -->
+            <div class="absolute inset-0 w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#FF6B6B]/20 animate-ping"></div>
+            <div class="absolute inset-2 w-28 h-28 md:inset-3 md:w-34 md:h-34 rounded-full bg-[#FF6B6B]/30 animate-pulse"></div>
+            <!-- Center icon -->
+            <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#FF6B6B] flex items-center justify-center text-white text-4xl font-bold shadow-2xl ring-4 ring-[#FF6B6B]/30">
+                <i data-lucide="search" class="w-12 h-12"></i>
+            </div>
+        </div>
+
+        <!-- Search text -->
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">パートナーを探しています<span class="dot-anim"><span>.</span><span>.</span><span>.</span></span></h2>
+        <p class="text-slate-400 text-sm mb-8">
+            推定待ち時間: <span id="wait-time" class="text-[#FF6B6B] font-bold">約2分</span>
+        </p>
+
+        <!-- Cancel button -->
+        <button id="btn-cancel-queue"
+            class="w-full max-w-xs sm:w-auto px-8 py-3 rounded-full border-2 border-slate-600 text-slate-300 font-bold hover:border-[#FF6B6B] hover:text-[#FF6B6B] transition-all">
+            検索をキャンセル
+        </button>
+
+        <!-- Online count -->
+        <p class="absolute bottom-8 text-slate-500 text-xs">
+            現在のオンライン: <span id="online-count" class="text-slate-300 font-bold">--</span>人
+        </p>
+    </div>
+
+    <!-- ============================================
+         Screen 2: Matched
+         ============================================ -->
+    <div id="screen-matched" class="screen hidden flex flex-col items-center justify-center min-h-screen px-6">
+
+        <!-- Match badge -->
+        <div class="text-center mb-8">
+            <div class="inline-block bg-[#FF6B6B]/20 text-[#FF6B6B] px-4 py-1 rounded-full text-sm font-bold mb-4">
+                Match!
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold">マッチング成立！</h2>
+        </div>
+
+        <!-- Avatar pair -->
+        <div class="flex items-center gap-6 mb-8">
+            <!-- My avatar -->
+            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-slate-700 border-4 border-[#FF6B6B]/30 overflow-hidden shadow-2xl">
+                <img id="my-avatar" src="" alt="自分のアバター" class="w-full h-full object-cover">
+            </div>
+            <!-- Heart icon -->
+            <div class="w-12 h-12 bg-[#FF6B6B] rounded-full flex items-center justify-center text-white shadow-lg animate-pulse">
+                <i data-lucide="heart" class="w-6 h-6"></i>
+            </div>
+            <!-- Partner avatar -->
+            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-slate-700 border-4 border-[#FF6B6B]/30 overflow-hidden shadow-2xl">
+                <img id="partner-avatar" src="" alt="相手のアバター" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <!-- Partner profile -->
+        <div class="text-center mb-8">
+            <h3 class="text-xl font-bold">
+                <span id="partner-name">--</span> さん
+                <span class="text-slate-400 text-base font-normal">(<span id="partner-age">--</span>)</span>
+            </h3>
+            <p id="partner-occupation" class="text-slate-400 text-sm mt-1"></p>
+        </div>
+
+        <!-- Start call button -->
+        <button id="btn-start-call"
+            class="btn-primary text-white px-10 py-4 rounded-2xl text-lg font-bold shadow-xl flex items-center gap-2 mb-4">
+            <i data-lucide="video" class="w-5 h-5"></i>
+            通話を開始する
+        </button>
+
+        <!-- Countdown -->
+        <p class="text-slate-500 text-sm">
+            自動開始まで: <span id="match-countdown" class="text-[#FF6B6B] font-bold text-lg">5</span>秒
+        </p>
+    </div>
+
+    <!-- ============================================
+         Screen 3: Video Call
+         ============================================ -->
+    <div id="screen-call" class="screen hidden">
+
+        <!-- Main remote video (full screen) -->
+        <div class="fixed inset-0 bg-slate-900">
+            <video id="remote-video" autoplay playsinline
+                class="w-full h-full object-cover">
+            </video>
+            <!-- Bottom gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+
+            <!-- Remote camera OFF fallback -->
+            <div id="remote-video-off" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-800">
+                <div class="w-24 h-24 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 mb-4">
+                    <i data-lucide="video-off" class="w-10 h-10"></i>
+                </div>
+                <p class="text-slate-400 font-bold"><span id="partner-name-fallback">相手</span>さんのカメラがOFFです</p>
+            </div>
+        </div>
+
+        <!-- Local video (small PiP window, fixed top-right) -->
+        <div id="local-video-container"
+            class="fixed top-20 right-4 w-24 h-32 md:w-40 md:h-56 rounded-2xl border-2 border-white/70 overflow-hidden shadow-2xl bg-slate-800 z-20 cursor-grab active:cursor-grabbing"
+            role="img"
+            aria-label="自分のカメラ映像">
+            <video id="local-video" autoplay playsinline muted
+                class="w-full h-full object-cover mirror">
+            </video>
+            <!-- Local camera OFF fallback -->
+            <div id="local-video-off" class="hidden absolute inset-0 flex items-center justify-center bg-slate-700">
+                <span id="my-initial" class="text-2xl font-bold text-slate-400">Y</span>
+            </div>
+        </div>
+
+        <!-- Timer (top center) -->
+        <div class="fixed top-20 left-1/2 -translate-x-1/2 z-30">
+            <div id="call-timer"
+                role="timer" aria-live="polite" aria-label="通話残り時間"
+                class="bg-black/50 backdrop-blur-lg px-6 py-2 rounded-full text-white text-sm font-bold border border-white/20 flex items-center gap-2">
+                <i data-lucide="clock" class="w-4 h-4"></i>
+                <span id="timer-display">10:00</span>
+            </div>
+        </div>
+
+        <!-- Reconnecting banner -->
+        <div id="reconnecting-banner"
+            class="hidden fixed top-32 left-1/2 -translate-x-1/2 z-40 bg-yellow-500/90 backdrop-blur px-4 py-2 rounded-full text-slate-900 text-xs font-bold flex items-center gap-2">
+            <i data-lucide="wifi-off" class="w-4 h-4 animate-pulse"></i>
+            接続を復旧しています...
+        </div>
+
+        <!-- Extension alert (shown at 1 min remaining) -->
+        <div id="extension-alert"
+            class="hidden fixed bottom-28 left-1/2 -translate-x-1/2 z-30 w-[90%] max-w-sm"
+            role="alert" aria-live="assertive">
+            <div class="bg-white/90 backdrop-blur px-5 py-3 rounded-2xl text-slate-800 shadow-lg border border-pink-200 text-center animate-pulse">
+                <p class="text-sm font-bold mb-2">まもなく10分です！延長しますか？</p>
+                <div class="flex gap-3 justify-center">
+                    <button id="btn-extend"
+                        class="btn-primary text-white px-6 py-2 rounded-full text-sm font-bold flex items-center gap-1">
+                        <i data-lucide="repeat" class="w-4 h-4"></i>
+                        5分延長する
+                    </button>
+                    <button id="btn-dismiss-extend"
+                        class="px-4 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">
+                        閉じる
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call control bar (bottom fixed) -->
+        <div class="fixed bottom-0 left-0 right-0 z-30 pb-8 pt-4">
+            <div class="flex justify-center items-center gap-4 md:gap-6">
+
+                <!-- Mic toggle -->
+                <button id="btn-toggle-mic" aria-label="マイクをOFFにする" aria-pressed="false" role="switch"
+                    class="w-12 h-12 md:w-14 md:h-14 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all">
+                    <i data-lucide="mic" class="w-5 h-5 md:w-6 md:h-6"></i>
+                </button>
+
+                <!-- Camera toggle -->
+                <button id="btn-toggle-camera" aria-label="カメラをOFFにする" aria-pressed="false" role="switch"
+                    class="w-12 h-12 md:w-14 md:h-14 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all">
+                    <i data-lucide="video" class="w-5 h-5 md:w-6 md:h-6"></i>
+                </button>
+
+                <!-- Extend button (hidden, shown at 1 min remaining) -->
+                <button id="btn-extend-bar" aria-label="通話を5分延長する"
+                    class="hidden w-14 h-14 md:w-16 md:h-16 bg-[#FF6B6B] rounded-full flex flex-col items-center justify-center text-white shadow-lg ring-2 ring-white hover:scale-105 transition-all">
+                    <i data-lucide="repeat" class="w-4 h-4 md:w-5 md:h-5"></i>
+                    <span class="text-[8px] font-bold">延長</span>
+                </button>
+
+                <!-- End call -->
+                <button id="btn-end-call" aria-label="通話を終了する"
+                    class="w-14 h-14 md:w-16 md:h-16 bg-red-500 rounded-full flex items-center justify-center text-white shadow-2xl hover:bg-red-600 hover:scale-105 transition-all">
+                    <i data-lucide="phone-off" class="w-6 h-6 md:w-7 md:h-7"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         Screen 4: Call Ended
+         ============================================ -->
+    <div id="screen-ended" class="screen hidden flex flex-col items-center justify-center min-h-screen px-6">
+
+        <!-- Heading -->
+        <h2 class="text-2xl md:text-3xl font-bold mb-6">通話が終了しました</h2>
+
+        <!-- Partner avatar -->
+        <div class="w-20 h-20 rounded-full bg-slate-700 border-4 border-slate-600 overflow-hidden shadow-2xl mb-3">
+            <img id="ended-partner-avatar" src="" alt="相手のアバター" class="w-full h-full object-cover">
+        </div>
+        <p class="text-lg font-bold mb-6">
+            <span id="ended-partner-name">--</span> さん
+        </p>
+
+        <!-- Call duration -->
+        <div class="bg-slate-800 px-6 py-3 rounded-2xl mb-8">
+            <p class="text-slate-400 text-xs mb-1">通話時間</p>
+            <p class="text-2xl font-bold text-white">
+                <i data-lucide="clock" class="w-5 h-5 inline-block mr-1 text-[#FF6B6B]"></i>
+                <span id="call-duration">--分--秒</span>
+            </p>
+        </div>
+
+        <!-- Rating UI -->
+        <div id="rating-section" class="mb-8 text-center">
+            <p class="text-slate-400 text-sm mb-4">この人との印象は？</p>
+            <div class="flex gap-4 md:gap-6 justify-center">
+                <button data-rating="good"
+                    class="rating-btn flex flex-col items-center gap-1 px-5 py-3 rounded-2xl bg-slate-800 hover:bg-green-500/20 hover:ring-2 hover:ring-green-500 transition-all">
+                    <i data-lucide="thumbs-up" class="w-6 h-6 text-green-400"></i>
+                    <span class="text-xs font-bold text-slate-300">良かった</span>
+                </button>
+                <button data-rating="neutral"
+                    class="rating-btn flex flex-col items-center gap-1 px-5 py-3 rounded-2xl bg-slate-800 hover:bg-yellow-500/20 hover:ring-2 hover:ring-yellow-500 transition-all">
+                    <i data-lucide="minus-circle" class="w-6 h-6 text-yellow-400"></i>
+                    <span class="text-xs font-bold text-slate-300">普通</span>
+                </button>
+                <button data-rating="bad"
+                    class="rating-btn flex flex-col items-center gap-1 px-5 py-3 rounded-2xl bg-slate-800 hover:bg-red-500/20 hover:ring-2 hover:ring-red-500 transition-all">
+                    <i data-lucide="thumbs-down" class="w-6 h-6 text-red-400"></i>
+                    <span class="text-xs font-bold text-slate-300">合わなかった</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Rating thanks message -->
+        <div id="rating-thanks" class="hidden mb-8 text-center">
+            <div class="bg-[#FF6B6B]/10 px-6 py-3 rounded-2xl">
+                <p class="text-[#FF6B6B] text-sm font-bold">フィードバックありがとうございます！</p>
+            </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="flex flex-col gap-3 w-full max-w-xs md:max-w-sm">
+            <button id="btn-next-partner"
+                class="btn-primary text-white py-4 rounded-2xl font-bold shadow-xl flex items-center justify-center gap-2">
+                <i data-lucide="search" class="w-5 h-5"></i>
+                次のパートナーを探す
+            </button>
+            <a id="btn-go-home" href="index.html"
+                class="py-4 rounded-2xl font-bold text-slate-400 border-2 border-slate-700 hover:border-slate-500 transition-all text-center">
+                ホームに戻る
+            </a>
+        </div>
+    </div>
+
+    <!-- ============================================
+         Error Modal (overlay)
+         ============================================ -->
+    <div id="modal-error" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="relative glass-card rounded-[2rem] p-8 max-w-sm w-full text-center space-y-4 bg-slate-900/90 border border-slate-700">
+            <div id="error-icon" class="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-red-500/20 text-red-400">
+                <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+            </div>
+            <h3 id="error-title" class="text-xl font-bold text-white">接続エラー</h3>
+            <p id="error-message" class="text-slate-400 text-sm">接続に問題が発生しました。再試行してください。</p>
+            <div id="error-actions" class="flex flex-col gap-3">
+                <button id="btn-error-retry" class="btn-primary text-white py-3 rounded-xl font-bold">再試行</button>
+                <button id="btn-error-home" class="py-3 rounded-xl font-bold text-slate-400 border border-slate-600 hover:border-slate-400 transition-all">ホームに戻る</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         Confirm End Call Modal
+         ============================================ -->
+    <div id="modal-confirm-end" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="通話終了確認">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="relative bg-slate-900/95 border border-slate-700 rounded-[2rem] p-8 max-w-xs w-full text-center space-y-4">
+            <div class="w-14 h-14 mx-auto rounded-full flex items-center justify-center bg-red-500/20 text-red-400">
+                <i data-lucide="phone-off" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white">通話を終了しますか？</h3>
+            <p class="text-slate-400 text-sm">
+                残り <span id="confirm-remaining">--:--</span>
+            </p>
+            <div class="flex gap-3">
+                <button id="btn-confirm-end"
+                    class="flex-1 bg-red-500 text-white py-3 rounded-xl font-bold hover:bg-red-600 transition-all">
+                    終了する
+                </button>
+                <button id="btn-cancel-end"
+                    class="flex-1 py-3 rounded-xl font-bold text-slate-400 border border-slate-600 hover:border-slate-400 transition-all">
+                    戻る
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         Confirm Extend Modal
+         ============================================ -->
+    <div id="modal-confirm-extend" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="延長確認">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="relative bg-slate-900/95 border border-slate-700 rounded-[2rem] p-8 max-w-xs w-full text-center space-y-4">
+            <div class="w-14 h-14 mx-auto rounded-full flex items-center justify-center bg-[#FF6B6B]/20 text-[#FF6B6B]">
+                <i data-lucide="repeat" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white">5分延長しますか？</h3>
+            <p class="text-slate-400 text-sm">延長料金: <span class="text-[#FF6B6B] font-bold">¥300</span></p>
+            <div class="flex gap-3">
+                <button id="btn-confirm-extend"
+                    class="flex-1 btn-primary text-white py-3 rounded-xl font-bold">
+                    延長する
+                </button>
+                <button id="btn-cancel-extend"
+                    class="flex-1 py-3 rounded-xl font-bold text-slate-400 border border-slate-600 hover:border-slate-400 transition-all">
+                    キャンセル
+                </button>
+            </div>
+            <p class="text-slate-500 text-[10px]">※ 料金は後払いで精算されます</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <!-- App -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/webrtc-media.js"></script>
+    <script src="js/webrtc-signaling.js"></script>
+    <script src="js/matching.js"></script>
+    <script src="js/call-controller.js"></script>
+    <script>
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    </script>
+</body>
+
+</html>

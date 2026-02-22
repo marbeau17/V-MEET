@@ -42,6 +42,16 @@
                 }
             }
 
+            var callLink = document.getElementById('nav-call-link');
+            if (callLink) {
+                callLink.classList.remove('hidden');
+                callLink.classList.add('auth-ready');
+            }
+            var mobileCallLink = document.getElementById('mobile-nav-call-link');
+            if (mobileCallLink) {
+                mobileCallLink.classList.remove('hidden');
+            }
+
             if (typeof lucide !== 'undefined' && lucide.createIcons) {
                 lucide.createIcons();
             }
@@ -54,6 +64,14 @@
             if (userMenu) {
                 userMenu.classList.add('hidden');
                 userMenu.classList.add('auth-ready');
+            }
+            var callLink = document.getElementById('nav-call-link');
+            if (callLink) {
+                callLink.classList.add('hidden');
+            }
+            var mobileCallLink = document.getElementById('mobile-nav-call-link');
+            if (mobileCallLink) {
+                mobileCallLink.classList.add('hidden');
             }
         }
     });

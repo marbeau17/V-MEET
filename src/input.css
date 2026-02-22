@@ -79,3 +79,46 @@ body {
 #btn-open-auth.auth-ready, #user-menu.auth-ready {
     opacity: 1;
 }
+
+/* === Video Call Page === */
+/* パルスアニメーション（マッチング待機） */
+@keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+.pulse-ring {
+    animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+/* タイマー点滅（残り1分未満） */
+@keyframes timer-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+.timer-warning {
+    animation: timer-blink 1s ease-in-out infinite;
+    color: #FF6B6B;
+}
+
+/* ドット省略アニメーション */
+@keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
+}
+.loading-dots::after {
+    content: '';
+    animation: dots 1.5s steps(1, end) infinite;
+}
+
+/* コントロールバー背景グラデーション */
+.control-bar-gradient {
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+}
+
+/* ローカルビデオ小窓 */
+.local-video-window {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}

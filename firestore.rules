@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 認証必須
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    function isOwner(uid) {
+      return request.auth.uid == uid;
+    }
+
+    // users/{uid} - 自分のデータのみ読み書き
+    match /users/{uid} {
+      allow read: if isAuthenticated() && isOwner(uid);
+      allow create: if isAuthenticated() && isOwner(uid);
+      allow update: if isAuthenticated() && isOwner(uid);
+    }
+
+    // queue/{uid} - 自分のドキュメントのみ作成/削除
+    match /queue/{uid} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isOwner(uid);
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated() && isOwner(uid);
+    }
+
+    // rooms/{roomId} - 参加者のみアクセス
+    match /rooms/{roomId} {
+      allow read: if isAuthenticated() && request.auth.uid in resource.data.participants;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && request.auth.uid in resource.data.participants;
+
+      // SDP/ICE サブコレクション
+      match /{subcollection}/{docId} {
+        allow read, write: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.participants;
+      }
+    }
+
+    // reports - 認証ユーザーが作成可能
+    match /reports/{reportId} {
+      allow create: if isAuthenticated();
+      allow read: if isAuthenticated() && resource.data.reporterUid == request.auth.uid;
+    }
+  }
+}
