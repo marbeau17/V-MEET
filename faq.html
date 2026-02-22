@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="V-Meet よくある質問。料金、使い方、安全対策、退会方法など、V-Meetに関するよくある質問にお答えします。">
+    <meta name="robots" content="index, follow">
+    <title>よくある質問 | V-Meet</title>
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link href="dist/output.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@0.263.1"></script>
+    <style>
+        /* ===========================
+           Mobile Hamburger Menu
+           =========================== */
+
+        /* Hamburger -> X animation */
+        #mobile-menu-toggle.is-open .hamburger-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        #mobile-menu-toggle.is-open .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        #mobile-menu-toggle.is-open .hamburger-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Menu link stagger animation */
+        .mobile-menu-link {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        #mobile-menu.is-open .mobile-menu-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #mobile-menu.is-open .mobile-menu-link:nth-child(1) { transition-delay: 0.05s; }
+        #mobile-menu.is-open .mobile-menu-link:nth-child(2) { transition-delay: 0.10s; }
+        #mobile-menu.is-open .mobile-menu-link:nth-child(3) { transition-delay: 0.15s; }
+
+        /* Overlay visible state */
+        #mobile-menu-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* FAQ Accordion */
+        .faq-item summary {
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::marker {
+            display: none;
+            content: '';
+        }
+
+        .faq-item[open] .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-item .faq-answer {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- Navigation -->
+    <nav aria-label="メインナビゲーション" class="fixed w-full z-50 glass-card px-6 py-4 flex justify-between items-center border-b border-pink-50">
+        <a href="index.html" class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-[#FF6B6B] rounded-xl flex items-center justify-center text-white shadow-lg">
+                <i data-lucide="video"></i>
+            </div>
+            <span class="text-2xl font-bold tracking-tight text-slate-800">V-Meet</span>
+        </a>
+        <div class="hidden md:flex gap-8 font-medium text-slate-600">
+            <a href="index.html#samples" class="hover:text-[#FF6B6B] transition-colors">ユーザー例</a>
+            <a href="index.html#how-it-works" class="hover:text-[#FF6B6B] transition-colors">使い方</a>
+            <a href="index.html#pricing" class="hover:text-[#FF6B6B] transition-colors">料金</a>
+        </div>
+        <!-- Right side: Hamburger + CTA -->
+        <div class="flex items-center gap-3">
+            <!-- Mobile Menu Toggle -->
+            <button
+                id="mobile-menu-toggle"
+                class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
+                aria-label="メニューを開く"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+            >
+                <span class="hamburger-line block w-6 h-0.5 bg-slate-700 rounded-full transition-all duration-300 origin-center"></span>
+                <span class="hamburger-line block w-6 h-0.5 bg-slate-700 rounded-full transition-all duration-300 origin-center"></span>
+                <span class="hamburger-line block w-6 h-0.5 bg-slate-700 rounded-full transition-all duration-300 origin-center"></span>
+            </button>
+
+            <button class="btn-primary text-white px-6 py-2 rounded-full font-bold shadow-lg">
+                無料登録
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+        id="mobile-menu-overlay"
+        class="fixed inset-0 bg-black/30 z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+        aria-hidden="true"
+    ></div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div
+        id="mobile-menu"
+        class="fixed top-[72px] left-0 right-0 z-50 overflow-hidden transition-all duration-300 ease-out"
+        style="max-height: 0;"
+        role="navigation"
+        aria-label="モバイルメニュー"
+    >
+        <div class="glass-card border-b border-pink-50 px-6 py-6 flex flex-col gap-4">
+            <a href="index.html#samples" class="mobile-menu-link text-lg font-medium text-slate-700 hover:text-[#FF6B6B] transition-colors py-2">
+                ユーザー例
+            </a>
+            <a href="index.html#how-it-works" class="mobile-menu-link text-lg font-medium text-slate-700 hover:text-[#FF6B6B] transition-colors py-2">
+                使い方
+            </a>
+            <a href="index.html#pricing" class="mobile-menu-link text-lg font-medium text-slate-700 hover:text-[#FF6B6B] transition-colors py-2">
+                料金
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-6 bg-slate-900 text-white">
+        <div class="max-w-4xl mx-auto text-center space-y-6">
+            <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-bold">
+                <i data-lucide="help-circle" class="w-5 h-5 text-[#FF6B6B]"></i>
+                FAQ
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                よくある質問
+            </h1>
+            <p class="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+                V-Meetについて、ユーザーの皆さまからよくいただく<br class="hidden md:block">ご質問にお答えします。
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-3xl mx-auto px-6 space-y-4">
+
+            <!-- Q1 -->
+            <details class="faq-item bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 font-bold text-lg hover:bg-slate-100 transition-colors">
+                    <span class="flex items-center gap-3">
+                        <span class="text-[#FF6B6B] font-bold text-sm">Q1</span>
+                        V-Meetとは何ですか？
+                    </span>
+                    <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                </summary>
+                <div class="faq-answer px-6 pb-6 text-slate-600 leading-relaxed">
+                    V-Meetは、ビデオ通話から始まる新しいマッチングサービスです。従来のメッセージベースのやり取りではなく、まず10分間のビデオ通話でお互いの雰囲気を確かめることができます。テキストだけでは伝わらない表情や話し方から、相性の良いパートナーを見つけましょう。
+                </div>
+            </details>
+
+            <!-- Q2 -->
+            <details class="faq-item bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 font-bold text-lg hover:bg-slate-100 transition-colors">
+                    <span class="flex items-center gap-3">
+                        <span class="text-[#FF6B6B] font-bold text-sm">Q2</span>
+                        料金はいくらですか？
+                    </span>
+                    <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                </summary>
+                <div class="faq-answer px-6 pb-6 text-slate-600 leading-relaxed">
+                    基本プランは月額980円で、プロフィールの無制限閲覧とAIマッチングをご利用いただけます。ビデオ面談は1回500円のチケット制です。なお、女性ユーザーはすべてのプランを無料・無制限でご利用いただけます。
+                </div>
+            </details>
+
+            <!-- Q3 -->
+            <details class="faq-item bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 font-bold text-lg hover:bg-slate-100 transition-colors">
+                    <span class="flex items-center gap-3">
+                        <span class="text-[#FF6B6B] font-bold text-sm">Q3</span>
+                        10分間の通話が終わったらどうなりますか？
+                    </span>
+                    <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                </summary>
+                <div class="faq-answer px-6 pb-6 text-slate-600 leading-relaxed">
+                    10分間の通話終了前に通知が届きます。お互いに「もっと話したい」と感じた場合は、ワンタップで延長が可能です。通話が終了しても、チャット機能で引き続きやり取りを続けることができます。
+                </div>
+            </details>
+
+            <!-- Q4 -->
+            <details class="faq-item bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 font-bold text-lg hover:bg-slate-100 transition-colors">
+                    <span class="flex items-center gap-3">
+                        <span class="text-[#FF6B6B] font-bold text-sm">Q4</span>
+                        延長料金はどのように支払いますか？
+                    </span>
+                    <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                </summary>
+                <div class="faq-answer px-6 pb-6 text-slate-600 leading-relaxed">
+                    延長料金は5分あたり300円で、後払い方式です。通話終了後に自動で決済されるため、通話中に支払い操作をする必要はありません。事前に登録したクレジットカードまたはアプリ内ウォレットから引き落としされます。
+                </div>
+            </details>
+
+            <!-- Q5 -->
+            <details class="faq-item bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 font-bold text-lg hover:bg-slate-100 transition-colors">
+                    <span class="flex items-center gap-3">
+                        <span class="text-[#FF6B6B] font-bold text-sm">Q5</span>
+                        安全対策はどうなっていますか？
+                    </span>
+                    <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                </summary>
+                <div class="faq-answer px-6 pb-6 text-slate-600 leading-relaxed">
+                    V-Meetでは、身分証明書による本人確認、AI顔認証によるなりすまし防止、24時間体制の監視・通報システムを導入しています。ビデオ通話はエンドツーエンド暗号化で保護されており、録画も禁止されています。詳しくは<a href="safety.html" class="text-[#FF6B6B] hover:underline">安全への取り組み</a>ページをご覧ください。
+                </div>
+            </details>
+
+            <!-- Q6 -->
+            <details class="faq-item bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 font-bold text-lg hover:bg-slate-100 transition-colors">
+                    <span class="flex items-center gap-3">
+                        <span class="text-[#FF6B6B] font-bold text-sm">Q6</span>
+                        退会するにはどうすればいいですか？
+                    </span>
+                    <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                </summary>
+                <div class="faq-answer px-6 pb-6 text-slate-600 leading-relaxed">
+                    アプリ内の「設定」メニューから「アカウント」を選択し、「退会する」ボタンをタップしてください。退会手続きは即時完了し、個人データは当社のプライバシーポリシーに基づいて適切に処理されます。なお、退会後のデータ復元はできませんのでご注意ください。
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-20 px-6">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-12 text-sm text-slate-500">
+            <div class="col-span-1 space-y-6">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 bg-[#FF6B6B] rounded-xl flex items-center justify-center text-white shadow-lg">
+                        <i data-lucide="video"></i></div>
+                    <span class="text-2xl font-bold tracking-tight text-slate-800">V-Meet</span>
+                </a>
+                <p>「文字より、10分」をコンセプトに、ビデオ面談から始まる新しい出会いの形。</p>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-bold text-slate-800">サービス</h4>
+                <ul class="space-y-4">
+                    <li><a href="index.html#how-it-works" class="hover:text-[#FF6B6B] transition-colors">使い方</a></li>
+                    <li><a href="index.html#pricing" class="hover:text-[#FF6B6B] transition-colors">料金プラン</a></li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-bold text-slate-800">サポート</h4>
+                <ul class="space-y-4">
+                    <li><a href="safety.html" class="hover:text-[#FF6B6B] transition-colors">安全への取り組み</a></li>
+                    <li><a href="faq.html" class="hover:text-[#FF6B6B] transition-colors">よくある質問</a></li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-bold text-slate-800">SNS</h4>
+                <div class="flex gap-4">
+                    <a href="javascript:void(0)" target="_blank" rel="noopener noreferrer" aria-label="V-Meet公式Twitter" data-placeholder="true"
+                        class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-[#FF6B6B] hover:text-white transition-all cursor-pointer"><i
+                            data-lucide="twitter" class="w-5 h-5"></i></a>
+                    <a href="javascript:void(0)" target="_blank" rel="noopener noreferrer" aria-label="V-Meet公式Instagram" data-placeholder="true"
+                        class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-[#FF6B6B] hover:text-white transition-all cursor-pointer"><i
+                            data-lucide="instagram" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // ===========================
+        // Mobile Menu Controller
+        // ===========================
+        (function () {
+            var toggle = document.getElementById('mobile-menu-toggle');
+            var menu = document.getElementById('mobile-menu');
+            var overlay = document.getElementById('mobile-menu-overlay');
+            var links = menu.querySelectorAll('.mobile-menu-link');
+
+            var isOpen = false;
+
+            function openMenu() {
+                isOpen = true;
+                toggle.classList.add('is-open');
+                toggle.setAttribute('aria-expanded', 'true');
+                toggle.setAttribute('aria-label', 'メニューを閉じる');
+
+                menu.classList.add('is-open');
+                menu.style.maxHeight = menu.scrollHeight + 'px';
+
+                overlay.classList.add('is-open');
+                overlay.setAttribute('aria-hidden', 'false');
+            }
+
+            function closeMenu() {
+                isOpen = false;
+                toggle.classList.remove('is-open');
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-label', 'メニューを開く');
+
+                menu.classList.remove('is-open');
+                menu.style.maxHeight = '0';
+
+                overlay.classList.remove('is-open');
+                overlay.setAttribute('aria-hidden', 'true');
+            }
+
+            // Toggle button
+            toggle.addEventListener('click', function () {
+                if (isOpen) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            });
+
+            // Overlay tap to close
+            overlay.addEventListener('click', closeMenu);
+
+            // Menu link tap to close
+            links.forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // Escape key to close
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isOpen) {
+                    closeMenu();
+                    toggle.focus();
+                }
+            });
+
+            // Close on resize to md+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 768 && isOpen) {
+                    closeMenu();
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
