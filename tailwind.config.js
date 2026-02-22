@@ -4,6 +4,7 @@ module.exports = {
     "./index.html",
     "./safety.html",
     "./faq.html",
+    "./js/**/*.js",
   ],
   theme: {
     extend: {},

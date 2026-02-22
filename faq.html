@@ -106,24 +106,27 @@
             <a href="index.html#how-it-works" class="hover:text-[#FF6B6B] transition-colors">使い方</a>
             <a href="index.html#pricing" class="hover:text-[#FF6B6B] transition-colors">料金</a>
         </div>
-        <!-- Right side: Hamburger + CTA -->
         <div class="flex items-center gap-3">
-            <!-- Mobile Menu Toggle -->
-            <button
-                id="mobile-menu-toggle"
-                class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
-                aria-label="メニューを開く"
-                aria-expanded="false"
-                aria-controls="mobile-menu"
-            >
+            <button id="mobile-menu-toggle" class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-menu">
                 <span class="hamburger-line block w-6 h-0.5 bg-slate-700 rounded-full transition-all duration-300 origin-center"></span>
                 <span class="hamburger-line block w-6 h-0.5 bg-slate-700 rounded-full transition-all duration-300 origin-center"></span>
                 <span class="hamburger-line block w-6 h-0.5 bg-slate-700 rounded-full transition-all duration-300 origin-center"></span>
             </button>
-
-            <button class="btn-primary text-white px-6 py-2 rounded-full font-bold shadow-lg">
-                無料登録
-            </button>
+            <button id="btn-open-auth" data-auth-action="register" class="btn-primary text-white px-6 py-2 rounded-full font-bold shadow-lg">無料登録</button>
+            <div id="user-menu" class="relative hidden">
+                <button id="user-menu-toggle" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 rounded-full pl-3 pr-2 py-1.5 transition-all">
+                    <span id="user-display-name" class="text-sm font-bold text-slate-700 max-w-[120px] truncate"></span>
+                    <div id="user-avatar" class="w-8 h-8 bg-[#FF6B6B] rounded-full flex items-center justify-center text-white text-sm font-bold"></div>
+                </button>
+                <div id="user-dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 hidden z-[60]">
+                    <div class="px-4 py-2 border-b border-slate-100">
+                        <p id="user-email-display" class="text-xs text-slate-400 truncate"></p>
+                    </div>
+                    <button id="btn-logout" class="w-full text-left px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#FF6B6B] transition-colors flex items-center gap-2">
+                        <i data-lucide="log-out" class="w-4 h-4"></i> ログアウト
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -301,6 +304,64 @@
             </div>
         </div>
     </footer>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-[100] hidden" aria-modal="true" role="dialog" aria-label="認証">
+        <div id="auth-modal-overlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="modal-content relative w-full max-w-md glass-card rounded-[2rem] shadow-2xl p-8 space-y-6">
+                <button id="auth-modal-close" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors" aria-label="閉じる"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <div class="flex items-center justify-center gap-2">
+                    <div class="w-10 h-10 bg-[#FF6B6B] rounded-xl flex items-center justify-center text-white shadow-lg"><i data-lucide="video"></i></div>
+                    <span class="text-2xl font-bold tracking-tight text-slate-800">V-Meet</span>
+                </div>
+                <div class="flex bg-slate-100 rounded-full p-1" role="tablist">
+                    <button id="tab-login" role="tab" aria-selected="true" aria-controls="panel-login" class="auth-tab flex-1 py-2 text-sm font-bold rounded-full transition-all text-white bg-[#FF6B6B]">ログイン</button>
+                    <button id="tab-register" role="tab" aria-selected="false" aria-controls="panel-register" class="auth-tab flex-1 py-2 text-sm font-bold rounded-full transition-all text-slate-500">新規登録</button>
+                </div>
+                <div id="panel-login" role="tabpanel" aria-labelledby="tab-login">
+                    <form id="form-login" class="space-y-4">
+                        <div><label for="login-email" class="block text-sm font-bold text-slate-700 mb-1">メールアドレス</label><input id="login-email" type="email" required autocomplete="email" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#FF6B6B] focus:ring-2 focus:ring-[#FF6B6B]/20 outline-none transition-all text-sm" placeholder="email@example.com"></div>
+                        <div><label for="login-password" class="block text-sm font-bold text-slate-700 mb-1">パスワード</label><input id="login-password" type="password" required autocomplete="current-password" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#FF6B6B] focus:ring-2 focus:ring-[#FF6B6B]/20 outline-none transition-all text-sm" placeholder="8文字以上"></div>
+                        <div id="login-error" class="text-red-500 text-xs font-bold hidden"></div>
+                        <button type="submit" class="w-full btn-primary text-white py-3 rounded-xl font-bold shadow-lg">ログイン</button>
+                    </form>
+                    <button id="show-reset" class="w-full text-center text-xs text-slate-400 hover:text-[#FF6B6B] mt-3 transition-colors">パスワードを忘れた方はこちら</button>
+                </div>
+                <div id="panel-register" role="tabpanel" aria-labelledby="tab-register" class="hidden">
+                    <form id="form-register" class="space-y-4">
+                        <div><label for="register-email" class="block text-sm font-bold text-slate-700 mb-1">メールアドレス</label><input id="register-email" type="email" required autocomplete="email" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#FF6B6B] focus:ring-2 focus:ring-[#FF6B6B]/20 outline-none transition-all text-sm" placeholder="email@example.com"></div>
+                        <div><label for="register-password" class="block text-sm font-bold text-slate-700 mb-1">パスワード</label><input id="register-password" type="password" required autocomplete="new-password" minlength="8" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#FF6B6B] focus:ring-2 focus:ring-[#FF6B6B]/20 outline-none transition-all text-sm" placeholder="8文字以上"></div>
+                        <div><label for="register-password-confirm" class="block text-sm font-bold text-slate-700 mb-1">パスワード（確認）</label><input id="register-password-confirm" type="password" required autocomplete="new-password" minlength="8" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#FF6B6B] focus:ring-2 focus:ring-[#FF6B6B]/20 outline-none transition-all text-sm" placeholder="もう一度入力してください"></div>
+                        <div id="register-error" class="text-red-500 text-xs font-bold hidden"></div>
+                        <button type="submit" class="w-full btn-primary text-white py-3 rounded-xl font-bold shadow-lg">無料で登録する</button>
+                    </form>
+                </div>
+                <div id="panel-reset" class="hidden">
+                    <form id="form-reset" class="space-y-4">
+                        <p class="text-sm text-slate-500">登録済みのメールアドレスを入力してください。パスワードリセットのリンクをお送りします。</p>
+                        <div><label for="reset-email" class="block text-sm font-bold text-slate-700 mb-1">メールアドレス</label><input id="reset-email" type="email" required autocomplete="email" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#FF6B6B] focus:ring-2 focus:ring-[#FF6B6B]/20 outline-none transition-all text-sm" placeholder="email@example.com"></div>
+                        <div id="reset-error" class="text-red-500 text-xs font-bold hidden"></div>
+                        <div id="reset-success" class="text-green-500 text-xs font-bold hidden"></div>
+                        <button type="submit" class="w-full btn-primary text-white py-3 rounded-xl font-bold shadow-lg">リセットメールを送信</button>
+                    </form>
+                    <button id="back-to-login" class="w-full text-center text-xs text-slate-400 hover:text-[#FF6B6B] mt-3 transition-colors">← ログインに戻る</button>
+                </div>
+                <div class="flex items-center gap-4"><div class="flex-1 h-px bg-slate-200"></div><span class="text-xs text-slate-400 font-bold">または</span><div class="flex-1 h-px bg-slate-200"></div></div>
+                <button id="btn-google-login" class="w-full flex items-center justify-center gap-3 py-3 rounded-xl border-2 border-slate-200 font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all text-sm">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    Googleでログイン
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth-modal.js"></script>
+    <script src="js/auth-ui.js"></script>
 
     <script>
         lucide.createIcons();

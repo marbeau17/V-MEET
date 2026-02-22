@@ -48,3 +48,34 @@ body {
 .anime-shadow {
     box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
 }
+
+/* === Auth Modal === */
+#auth-modal {
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+#auth-modal.is-visible {
+    opacity: 1;
+}
+
+#auth-modal .modal-content {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: scale(0.95) translateY(10px);
+    opacity: 0;
+}
+
+#auth-modal.is-visible .modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* FOUC対策: 認証状態確定前はボタンを非表示 */
+#btn-open-auth, #user-menu {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#btn-open-auth.auth-ready, #user-menu.auth-ready {
+    opacity: 1;
+}
