@@ -2,7 +2,7 @@
   "name": "vmeet-functions",
   "description": "V-Meet Cloud Functions",
   "engines": {
-    "node": "18"
+    "node": "22"
   },
   "main": "index.js",
   "dependencies": {
