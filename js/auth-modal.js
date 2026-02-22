@@ -67,13 +67,17 @@
 
     function showError(containerId, message) {
         var el = document.getElementById(containerId);
-        if (el) el.textContent = message;
+        if (el) {
+            el.textContent = message;
+            el.classList.remove('hidden');
+        }
     }
 
     function clearErrors() {
-        var errorEls = modal ? modal.querySelectorAll('[id$="-error"]') : [];
+        var errorEls = modal ? modal.querySelectorAll('[id$="-error"], [id$="-success"]') : [];
         for (var i = 0; i < errorEls.length; i++) {
             errorEls[i].textContent = '';
+            errorEls[i].classList.add('hidden');
         }
     }
 
@@ -179,7 +183,14 @@
 
     if (modal) {
         modal.addEventListener('click', function (e) {
-            if (e.target === modal) closeAuthModal();
+            if (e.target === modal || e.target.id === 'auth-modal-overlay') closeAuthModal();
+        });
+    }
+
+    var btnClose = document.getElementById('auth-modal-close');
+    if (btnClose) {
+        btnClose.addEventListener('click', function () {
+            closeAuthModal();
         });
     }
 
@@ -188,8 +199,8 @@
         formLogin.addEventListener('submit', function (e) {
             e.preventDefault();
             clearErrors();
-            var email = formLogin.querySelector('[name="email"]').value;
-            var password = formLogin.querySelector('[name="password"]').value;
+            var email = document.getElementById('login-email').value;
+            var password = document.getElementById('login-password').value;
 
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function () {
@@ -206,9 +217,9 @@
         formRegister.addEventListener('submit', function (e) {
             e.preventDefault();
             clearErrors();
-            var email = formRegister.querySelector('[name="email"]').value;
-            var password = formRegister.querySelector('[name="password"]').value;
-            var confirm = formRegister.querySelector('[name="password-confirm"]').value;
+            var email = document.getElementById('register-email').value;
+            var password = document.getElementById('register-password').value;
+            var confirm = document.getElementById('register-password-confirm').value;
 
             if (password !== confirm) {
                 showError('register-error', 'パスワードが一致しません。');
@@ -246,7 +257,7 @@
         formReset.addEventListener('submit', function (e) {
             e.preventDefault();
             clearErrors();
-            var email = formReset.querySelector('[name="email"]').value;
+            var email = document.getElementById('reset-email').value;
 
             firebase.auth().sendPasswordResetEmail(email)
                 .then(function () {
