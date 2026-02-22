@@ -1,0 +1,13 @@
+# Tailwind CLI binary
+tailwindcss.exe
+tailwindcss-*
+
+# Vercel
+.vercel/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Claude
+.claude/

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="V-Meet - 文字より、10分。ビデオ面談から始まる新しい出会いのカタチ。メッセージの駆け引きはもう終わり、まずはビデオで10分話してみよう。">
+    <meta property="og:title" content="V-Meet | 文字より、10分。会う前の違和感をゼロに。">
+    <meta property="og:description" content="ビデオ面談から始まる新しい出会いのカタチ。メッセージの駆け引きはもう終わり、まずはビデオで10分話してみよう。">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://v-meet-kohl.vercel.app/">
+    <meta property="og:url" content="https://v-meet-kohl.vercel.app/">
+    <meta property="og:image" content="https://v-meet-kohl.vercel.app/images/hero_woman_1771638499937.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="V-Meet - ビデオ面談から始まる新しい出会いのカタチ">
+    <meta name="robots" content="index, follow">
+    <meta name="twitter:title" content="V-Meet | 文字より、10分。会う前の違和感をゼロに。">
+    <meta name="twitter:description" content="ビデオ面談から始まる新しい出会いのカタチ。メッセージの駆け引きはもう終わり、まずはビデオで10分話してみよう。">
+    <meta name="twitter:image" content="https://v-meet-kohl.vercel.app/images/hero_woman_1771638499937.png">
+    <title>V-Meet | 文字より、10分。会う前の違和感をゼロに。</title>
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link href="dist/output.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@0.263.1"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "V-Meet",
+        "alternateName": "ブイミート",
+        "url": "https://v-meet-kohl.vercel.app/",
+        "description": "文字より、10分。ビデオ面談から始まる新しい出会いのカタチ。",
+        "publisher": {
+            "@type": "Organization",
+            "name": "V-Meet",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://v-meet-kohl.vercel.app/images/hero_woman_1771638499937.png"
+            }
+        }
+    }
+    </script>
+    <style>
+        /* ===========================
+           Mobile Hamburger Menu
+           =========================== */
+
+        /* Hamburger -> X animation */
+        #mobile-menu-toggle.is-open .hamburger-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        #mobile-menu-toggle.is-open .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        #mobile-menu-toggle.is-open .hamburger-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Menu link stagger animation */
+        .mobile-menu-link {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        #mobile-menu.is-open .mobile-menu-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #mobile-menu.is-open .mobile-menu-link:nth-child(1) { transition-delay: 0.05s; }
+        #mobile-menu.is-open .mobile-menu-link:nth-child(2) { transition-delay: 0.10s; }
+        #mobile-menu.is-open .mobile-menu-link:nth-child(3) { transition-delay: 0.15s; }
+
+        /* Overlay visible state */
+        #mobile-menu-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- Navigation -->
+    <nav aria-label="メインナビゲーション" class="fixed w-full z-50 glass-card px-6 py-4 flex justify-between items-center border-b border-pink-50">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-[#FF6B6B] rounded-xl flex items-center justify-center text-white shadow-lg">
+                <i data-lucide="video"></i>
+            </div>
+            <span class="text-2xl font-bold tracking-tight text-slate-800">V-Meet</span>
+        </div>
+        <div class="hidden md:flex gap-8 font-medium text-slate-600">
+            <a href="#samples" class="hover:text-[#FF6B6B] transition-colors">ユーザー例</a>
+            <a href="#how-it-works" class="hover:text-[#FF6B6B] transition-colors">使い方</a>
+            <a href="#pricing" class="hover:text-[#FF6B6B] transition-colors">料金</a>
+        </div>
+        <!-- Right side: Hamburger + CTA -->
+        <div class="flex items-center gap-3">
+            <!-- Mobile Menu Toggle -->
+            <button
+                id="mobile-menu-toggle"
+                class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
+                aria-label="メニューを開く"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+            >
+                <span class="hamburger-line block w-6 h-0.5 bg-slate-700 rounded-full transition-all duration-300 origin-center"></span>
+                <span class="hamburger-line block w-6 h-0.5 bg-slate-700 rounded-full transition-all duration-300 origin-center"></span>
+                <span class="hamburger-line block w-6 h-0.5 bg-slate-700 rounded-full transition-all duration-300 origin-center"></span>
+            </button>
+
+            <button class="btn-primary text-white px-6 py-2 rounded-full font-bold shadow-lg">
+                無料登録
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+        id="mobile-menu-overlay"
+        class="fixed inset-0 bg-black/30 z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+        aria-hidden="true"
+    ></div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div
+        id="mobile-menu"
+        class="fixed top-[72px] left-0 right-0 z-50 overflow-hidden transition-all duration-300 ease-out"
+        style="max-height: 0;"
+        role="navigation"
+        aria-label="モバイルメニュー"
+    >
+        <div class="glass-card border-b border-pink-50 px-6 py-6 flex flex-col gap-4">
+            <a href="#samples" class="mobile-menu-link text-lg font-medium text-slate-700 hover:text-[#FF6B6B] transition-colors py-2">
+                ユーザー例
+            </a>
+            <a href="#how-it-works" class="mobile-menu-link text-lg font-medium text-slate-700 hover:text-[#FF6B6B] transition-colors py-2">
+                使い方
+            </a>
+            <a href="#pricing" class="mobile-menu-link text-lg font-medium text-slate-700 hover:text-[#FF6B6B] transition-colors py-2">
+                料金
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 hero-gradient overflow-hidden">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <div class="flex-1 space-y-8">
+                <div
+                    class="inline-block bg-pink-100 text-[#FF6B6B] px-4 py-1 rounded-full text-sm font-bold animate-bounce">
+                    次世代のビデオマッチング
+                </div>
+                <h1 class="text-5xl md:text-6xl font-bold leading-tight text-slate-900">
+                    文字より、10分。<br>
+                    <span class="text-[#FF6B6B]">もっと話したい</span><br>
+                    も、その場で叶う。
+                </h1>
+                <p class="text-xl text-slate-600 leading-relaxed">
+                    メッセージの駆け引きはもう終わり。<br>
+                    まずはビデオで10分。気が合えばその場で延長。<br>
+                    タイパ良く、理想のパートナーと繋がろう。
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button
+                        class="btn-primary text-white px-10 py-4 rounded-2xl text-lg font-bold shadow-xl flex items-center justify-center gap-2">
+                        今すぐパートナーを探す <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 relative">
+                <!-- Phone Mockup -->
+                <div
+                    class="relative w-[300px] h-[600px] mx-auto bg-slate-900 rounded-[3.5rem] border-[12px] border-slate-800 shadow-2xl overflow-hidden">
+                    <div class="absolute top-0 w-full h-8 bg-slate-800 z-10 flex justify-center items-center">
+                        <div class="w-16 h-4 bg-slate-900 rounded-full"></div>
+                    </div>
+                    <div class="h-full w-full bg-white pt-8">
+                        <!-- Video Call Preview Image -->
+                        <div class="relative h-full">
+                            <img src="images/hero_woman_1771638499937.png"
+                                class="w-full h-full object-cover" alt="V-Meetビデオ通話のイメージ">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+
+                            <!-- Small overlay for self-camera (User perspective) -->
+                            <div
+                                class="absolute top-6 right-4 w-24 h-32 rounded-2xl border-2 border-white/70 overflow-hidden shadow-2xl bg-slate-800">
+                                <img src="images/self_camera_1771638518737.png"
+                                    class="w-full h-full object-cover" alt="自分のカメラ映像">
+                            </div>
+
+                            <!-- Call Controls Overlay -->
+                            <div class="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-4">
+                                <!-- Extension Alert -->
+                                <div
+                                    class="bg-white/90 backdrop-blur px-4 py-2 rounded-2xl text-slate-800 text-[10px] font-bold shadow-lg animate-pulse mb-2 border border-pink-200">
+                                    まもなく10分です！延長しますか？
+                                </div>
+                                <div
+                                    class="bg-black/50 backdrop-blur-lg px-6 py-1 rounded-full text-white text-xs font-bold border border-white/20">
+                                    09:41
+                                </div>
+                                <div class="flex gap-4 items-center">
+                                    <div
+                                        class="w-10 h-10 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white">
+                                        <i data-lucide="mic" class="w-5 h-5"></i></div>
+                                    <div
+                                        class="w-12 h-12 bg-[#FF6B6B] rounded-full flex flex-col items-center justify-center text-white shadow-lg ring-2 ring-white hover:scale-105 transition-all">
+                                        <i data-lucide="repeat" class="w-4 h-4"></i>
+                                        <span class="text-[8px] font-bold">延長</span>
+                                    </div>
+                                    <div
+                                        class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white shadow-2xl">
+                                        <i data-lucide="phone-off" class="w-6 h-6"></i></div>
+                                    <div
+                                        class="w-10 h-10 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white">
+                                        <i data-lucide="video" class="w-5 h-5"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Floating Info Card -->
+                <div
+                    class="absolute -bottom-4 -left-6 md:-left-12 glass-card p-5 rounded-[2rem] shadow-2xl w-64 anime-shadow border-pink-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="relative">
+                            <img src="images/user_icon_1771638533190.png"
+                                class="w-12 h-12 rounded-2xl" alt="マッチングユーザーアイコン">
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold block text-slate-800">マッチング成功！</span>
+                            <span class="text-[10px] text-green-500 font-bold">● オンライン</span>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-slate-600 bg-pink-50 p-3 rounded-xl leading-relaxed">
+                        「もっとお話ししたいときは、いつでも延長ボタンをどうぞ！✨」
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sample Profiles Section -->
+    <section id="samples" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 space-y-4">
+                <h2 class="text-3xl md:text-4xl font-bold">個性豊かなユーザーたち</h2>
+                <p class="text-slate-500">プロフィールには、動くアニメーションや声のサンプルも。</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- User 1 -->
+                <div class="profile-card group cursor-pointer">
+                    <div
+                        class="relative overflow-hidden rounded-[2.5rem] aspect-[3/4] mb-4 anime-shadow bg-slate-100 border-4 border-transparent group-hover:border-[#FF6B6B] transition-all">
+                        <img src="images/woman_24_1771638554042.png"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            alt="さくら 24歳 クリエイター">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80">
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 space-y-2">
+                            <div class="flex gap-2 text-white">
+                                <span
+                                    class="bg-white/20 backdrop-blur-md text-[10px] px-3 py-1 rounded-full font-bold">24歳
+                                    / クリエイター</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-lg px-2">さくら <span class="text-sm font-normal text-slate-400">さん</span>
+                    </h4>
+                    <p class="text-xs text-slate-500 px-2 mt-1">「趣味のイラストについて語り合いたいです🎨」</p>
+                </div>
+                <!-- User 2 -->
+                <div class="profile-card group cursor-pointer">
+                    <div
+                        class="relative overflow-hidden rounded-[2.5rem] aspect-[3/4] mb-4 anime-shadow bg-slate-100 border-4 border-transparent group-hover:border-[#FF6B6B] transition-all">
+                        <img src="images/man_28_1771638582589.png"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            alt="けんた 28歳 エンジニア">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80">
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 space-y-2 text-white">
+                            <div class="flex gap-2">
+                                <span
+                                    class="bg-white/20 backdrop-blur-md text-[10px] px-3 py-1 rounded-full font-bold">28歳
+                                    / エンジニア</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-lg px-2">けんた <span class="text-sm font-normal text-slate-400">さん</span>
+                    </h4>
+                    <p class="text-xs text-slate-500 px-2 mt-1">「最近はキャンプにハマっています！⛺️」</p>
+                </div>
+                <!-- User 3 -->
+                <div class="profile-card group cursor-pointer">
+                    <div
+                        class="relative overflow-hidden rounded-[2.5rem] aspect-[3/4] mb-4 anime-shadow bg-slate-100 border-4 border-transparent group-hover:border-[#FF6B6B] transition-all">
+                        <img src="images/woman_26_1771638598536.png"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            alt="みく 26歳 看護師">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80">
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 space-y-2 text-white">
+                            <div class="flex gap-2">
+                                <span
+                                    class="bg-white/20 backdrop-blur-md text-[10px] px-3 py-1 rounded-full font-bold">26歳
+                                    / 看護師</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-lg px-2">みく <span class="text-sm font-normal text-slate-400">さん</span>
+                    </h4>
+                    <p class="text-xs text-slate-500 px-2 mt-1">「癒やし系のトークが得意です🌿」</p>
+                </div>
+                <!-- User 4 -->
+                <div class="profile-card group cursor-pointer">
+                    <div
+                        class="relative overflow-hidden rounded-[2.5rem] aspect-[3/4] mb-4 anime-shadow bg-slate-100 border-4 border-transparent group-hover:border-[#FF6B6B] transition-all">
+                        <img src="images/man_30_1771638613564.png"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            alt="りょう 30歳 建築家">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80">
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 space-y-2 text-white">
+                            <div class="flex gap-2">
+                                <span
+                                    class="bg-white/20 backdrop-blur-md text-[10px] px-3 py-1 rounded-full font-bold">30歳
+                                    / 建築家</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-lg px-2">りょう <span class="text-sm font-normal text-slate-400">さん</span>
+                    </h4>
+                    <p class="text-xs text-slate-500 px-2 mt-1">「夜の静かな時間にゆっくりお話ししましょう🍷」</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section id="how-it-works" class="py-24 bg-slate-50 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">わずか3ステップの出会い</h2>
+                <p class="text-slate-600 italic">"メッセージのやり取りで一週間" を "ビデオで10分" に。</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="bg-white p-10 rounded-[3rem] shadow-xl text-center space-y-6">
+                    <div class="step-number mx-auto scale-125 mb-2">1</div>
+                    <img src="images/profile_search_1771638632885.png"
+                        class="w-full h-40 object-cover rounded-3xl mb-4" alt="感性でプロフィールを探す" loading="lazy">
+                    <h3 class="text-xl font-bold">感性で探す</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">趣味のタグや音声プロフィールから直感で選びます。</p>
+                </div>
+                <div class="bg-white p-10 rounded-[3rem] shadow-xl text-center space-y-6">
+                    <div class="step-number mx-auto scale-125 mb-2">2</div>
+                    <img src="images/booking_calendar_1771638659585.png"
+                        class="w-full h-40 object-cover rounded-3xl mb-4" alt="10分間を予約するカレンダー" loading="lazy">
+                    <h3 class="text-xl font-bold">10分間を予約</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">マッチングしたら、相手の空き時間をタップするだけ。即日程確定！</p>
+                </div>
+                <div class="bg-white p-10 rounded-[3rem] shadow-xl text-center space-y-6 border-4 border-[#FF6B6B]/10">
+                    <div class="step-number mx-auto scale-125 mb-2">3</div>
+                    <img src="images/video_call_step_1771638675739.png"
+                        class="w-full h-40 object-cover rounded-3xl mb-4" alt="ビデオ通話で対面" loading="lazy">
+                    <h3 class="text-xl font-bold">ビデオで対面 <span
+                            class="text-[10px] bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full">NEW：延長可能</span></h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">10分話して「いいな」と思えばワンタップで延長。気が合えばそのまま何分でもトークを楽しめます。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16 space-y-4">
+                <h2 class="text-4xl font-bold">スマートな価格設計</h2>
+                <p class="text-slate-500">基本料金は低く、動いた分だけフェアに支払う。</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                <!-- Base Plan -->
+                <div
+                    class="border-2 border-slate-100 rounded-[3rem] p-10 space-y-8 flex flex-col hover:bg-slate-50 transition-colors">
+                    <div class="space-y-3">
+                        <span
+                            class="bg-slate-200 text-slate-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Entry
+                            Plan</span>
+                        <h3 class="text-2xl font-bold">基本プラン</h3>
+                        <p class="text-slate-400 text-sm">コミュニティへの参加権</p>
+                    </div>
+                    <div class="text-5xl font-bold tracking-tight text-slate-800">¥980<span
+                            class="text-base font-normal text-slate-400"> / 月</span></div>
+                    <ul class="space-y-5 flex-1 pt-4 text-slate-600 text-sm">
+                        <li class="flex items-start gap-4"><i data-lucide="check-circle"
+                                class="text-green-500 w-5 h-5 flex-shrink-0"></i> <span>プロフィール無制限閲覧</span></li>
+                        <li class="flex items-start gap-4"><i data-lucide="check-circle"
+                                class="text-green-500 w-5 h-5 flex-shrink-0"></i> <span>AIによる価値観マッチング</span></li>
+                    </ul>
+                    <button
+                        class="w-full py-5 rounded-[1.5rem] border-2 border-slate-200 font-bold text-slate-600 hover:border-slate-400 transition-all">
+                        詳細をチェック
+                    </button>
+                </div>
+
+                <!-- Usage Fee (Highlighted) -->
+                <div
+                    class="bg-slate-900 text-white rounded-[3rem] p-10 space-y-8 relative overflow-hidden flex flex-col shadow-2xl scale-105">
+                    <div
+                        class="absolute top-6 right-6 bg-[#FF6B6B] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                        Update</div>
+                    <div class="space-y-3">
+                        <span
+                            class="text-pink-400 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-pink-400/30">Session
+                            & Extension</span>
+                        <h3 class="text-2xl font-bold text-white">面談 & 延長</h3>
+                        <p class="text-slate-400 text-sm">実際に話す時だけ必要</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end border-b border-white/10 pb-4">
+                            <span class="text-sm font-bold">10分面談チケット</span>
+                            <div class="text-3xl font-bold">¥500<span class="text-xs font-normal text-slate-500"> /
+                                    枚</span></div>
+                        </div>
+                        <div class="flex justify-between items-end pb-4 pt-2">
+                            <span class="text-sm font-bold flex items-center gap-1 text-pink-400">
+                                延長料金 <span class="bg-pink-400 text-white text-[8px] px-1 rounded">追加分</span>
+                            </span>
+                            <div class="text-3xl font-bold">¥300<span class="text-xs font-normal text-slate-500"> /
+                                    5分</span></div>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 flex-1 pt-2 text-slate-200 text-xs">
+                        <li class="flex items-start gap-4"><i data-lucide="zap"
+                                class="text-[#FF6B6B] w-5 h-5 flex-shrink-0"></i> <span>通話終了前にお知らせ & ワンタップ延長</span></li>
+                        <li class="flex items-start gap-4"><i data-lucide="zap"
+                                class="text-[#FF6B6B] w-5 h-5 flex-shrink-0"></i> <span>延長分は後払いでスムーズ決済</span></li>
+                        <li class="flex items-start gap-4"><i data-lucide="zap"
+                                class="text-[#FF6B6B] w-5 h-5 flex-shrink-0"></i> <span>通話後のチャット永久解放</span></li>
+                    </ul>
+                    <button class="w-full py-5 rounded-[1.5rem] btn-primary text-white font-bold shadow-xl">
+                        チケットを購入する
+                    </button>
+                </div>
+            </div>
+
+            <p class="mt-12 text-center text-[10px] text-slate-400 leading-relaxed uppercase tracking-tighter italic">
+                ※女性ユーザーは全てのプランを無料・無制限（延長料金含む）でご利用いただけます。
+            </p>
+        </div>
+    </section>
+
+    <!-- Security Focus -->
+    <section class="py-24 bg-slate-50">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-20">
+            <div class="flex-1 space-y-10">
+                <div class="space-y-4">
+                    <h2
+                        class="text-3xl md:text-4xl font-bold leading-tight underline decoration-pink-300 decoration-8 underline-offset-4">
+                        延長も、安心・安全。</h2>
+                    <p class="text-slate-500 leading-relaxed">
+                        「もっと話したい」と思った時、無理な引き止めや高額請求はありません。システム側で時間を管理し、納得の上で延長いただけます。</p>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-3xl anime-shadow border border-pink-50">
+                        <div
+                            class="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center text-[#FF6B6B] flex-shrink-0">
+                            <i data-lucide="clock" class="w-8 h-8"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-lg">透明な時間管理</h4>
+                            <p class="text-sm text-slate-500 leading-relaxed">残り時間が少なくなると通知が届きます。自動で延長されることはありません。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 relative">
+                <div class="absolute -inset-4 bg-pink-200/50 blur-3xl rounded-full"></div>
+                <img src="images/security_room_1771638693773.png"
+                    class="relative rounded-[3rem] shadow-2xl anime-shadow" alt="安心・安全なセキュリティ環境" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-24 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div
+                class="bg-slate-900 rounded-[4rem] p-16 text-center text-white space-y-10 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-12 opacity-5">
+                    <i data-lucide="heart" class="w-80 h-80"></i>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold leading-tight">
+                    時間は自分で決める。<br>
+                    新しい出会いのカタチ。
+                </h2>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center pt-6">
+                    <button
+                        class="bg-white text-slate-900 px-12 py-5 rounded-[1.5rem] font-bold text-lg hover:bg-slate-100 transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="apple"></i> App Store
+                    </button>
+                    <button
+                        class="bg-[#FF6B6B] text-white px-12 py-5 rounded-[1.5rem] font-bold text-lg hover:bg-[#FF8E8E] transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="play"></i> Google Play
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-20 px-6">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-12 text-sm text-slate-500">
+            <div class="col-span-1 space-y-6">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 bg-[#FF6B6B] rounded-xl flex items-center justify-center text-white shadow-lg">
+                        <i data-lucide="video"></i></div>
+                    <span class="text-2xl font-bold tracking-tight text-slate-800">V-Meet</span>
+                </div>
+                <p>「文字より、10分」をコンセプトに、ビデオ面談から始まる新しい出会いの形。</p>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-bold text-slate-800">サービス</h4>
+                <ul class="space-y-4">
+                    <li><a href="#how-it-works" class="hover:text-[#FF6B6B] transition-colors">使い方</a></li>
+                    <li><a href="#pricing" class="hover:text-[#FF6B6B] transition-colors">料金プラン</a></li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-bold text-slate-800">サポート</h4>
+                <ul class="space-y-4">
+                    <li><a href="/safety" class="hover:text-[#FF6B6B] transition-colors">安全への取り組み</a></li>
+                    <li><a href="/faq" class="hover:text-[#FF6B6B] transition-colors">よくある質問</a></li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-bold text-slate-800">SNS</h4>
+                <div class="flex gap-4">
+                    <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="V-Meet公式Twitter"
+                        class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-[#FF6B6B] hover:text-white transition-all"><i
+                            data-lucide="twitter" class="w-5 h-5"></i></a>
+                    <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="V-Meet公式Instagram"
+                        class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-[#FF6B6B] hover:text-white transition-all"><i
+                            data-lucide="instagram" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // ===========================
+        // Mobile Menu Controller
+        // ===========================
+        (function () {
+            var toggle = document.getElementById('mobile-menu-toggle');
+            var menu = document.getElementById('mobile-menu');
+            var overlay = document.getElementById('mobile-menu-overlay');
+            var links = menu.querySelectorAll('.mobile-menu-link');
+
+            var isOpen = false;
+
+            function openMenu() {
+                isOpen = true;
+                toggle.classList.add('is-open');
+                toggle.setAttribute('aria-expanded', 'true');
+                toggle.setAttribute('aria-label', 'メニューを閉じる');
+
+                menu.classList.add('is-open');
+                menu.style.maxHeight = menu.scrollHeight + 'px';
+
+                overlay.classList.add('is-open');
+                overlay.setAttribute('aria-hidden', 'false');
+            }
+
+            function closeMenu() {
+                isOpen = false;
+                toggle.classList.remove('is-open');
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-label', 'メニューを開く');
+
+                menu.classList.remove('is-open');
+                menu.style.maxHeight = '0';
+
+                overlay.classList.remove('is-open');
+                overlay.setAttribute('aria-hidden', 'true');
+            }
+
+            // Toggle button
+            toggle.addEventListener('click', function () {
+                if (isOpen) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            });
+
+            // Overlay tap to close
+            overlay.addEventListener('click', closeMenu);
+
+            // Menu link tap to close
+            links.forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // Escape key to close
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isOpen) {
+                    closeMenu();
+                    toggle.focus();
+                }
+            });
+
+            // Close on resize to md+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 768 && isOpen) {
+                    closeMenu();
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- 角丸正方形の背景 (#FF6B6B) -->
+  <rect width="32" height="32" rx="8" ry="8" fill="#FF6B6B"/>
+  <!-- ビデオカメラアイコン（白抜き） -->
+  <!-- 本体部分: 角丸長方形 -->
+  <rect x="5" y="9" width="16" height="14" rx="2" ry="2" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- レンズ部分: 三角形（polygon） -->
+  <polygon points="21,12 27,8.5 27,23.5 21,20" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
