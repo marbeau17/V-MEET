@@ -34,11 +34,10 @@ exports.onQueueWrite = firestoreFn.onDocumentCreated(
 
     console.log("onQueueWrite triggered for uid:", uid);
 
-    // status='waiting' の別ユーザーを検索（enqueuedAt昇順）
+    // status='waiting' の別ユーザーを検索（orderBy不要 — 複合インデックス不要に）
     return db
       .collection("queue")
       .where("status", "==", "waiting")
-      .orderBy("enqueuedAt", "asc")
       .limit(10)
       .get()
       .then(function (querySnapshot) {

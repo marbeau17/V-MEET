@@ -13,6 +13,7 @@
     /* ---------- 内部状態 ---------- */
     var unsubscribeQueue = null;   // queue onSnapshot リスナー解除関数
     var timerInterval = null;      // setInterval ID
+    var matchPollInterval = null;  // マッチングポーリング ID
     var onMatchedCallback = null;  // マッチング成立コールバック
 
     /* ---------- ヘルパー ---------- */
@@ -59,8 +60,8 @@
             // onSnapshot でマッチング検知
             listenQueue(uid);
 
-            // クライアントサイドマッチング試行 (MVP フォールバック)
-            tryClientSideMatch(uid, user);
+            // クライアントサイドマッチング試行（3秒ごとにリトライ）
+            startMatchPolling(uid, user);
         });
     }
 
@@ -81,6 +82,8 @@
 
                 var d = doc.data();
                 if (d.status === 'matched' && d.roomId) {
+                    // ポーリング停止
+                    stopMatchPolling();
                     // リスナー解除
                     if (unsubscribeQueue) {
                         unsubscribeQueue();
@@ -123,7 +126,29 @@
        ====================== */
 
     /**
-     * Cloud Functions が未実装のMVP段階でのフォールバック。
+     * 3秒ごとにクライアントサイドマッチングを試行するポーリング。
+     * マッチング成立 or キュー離脱まで繰り返す。
+     */
+    function startMatchPolling(myUid, myUser) {
+        stopMatchPolling();
+        // 初回は1秒後に実行（Cloud Functionに先に処理させる）
+        setTimeout(function () {
+            tryClientSideMatch(myUid, myUser);
+        }, 1000);
+        // 以降3秒ごとにリトライ
+        matchPollInterval = setInterval(function () {
+            tryClientSideMatch(myUid, myUser);
+        }, 3000);
+    }
+
+    function stopMatchPolling() {
+        if (matchPollInterval) {
+            clearInterval(matchPollInterval);
+            matchPollInterval = null;
+        }
+    }
+
+    /**
      * queue コレクションから status='waiting' かつ自分以外のユーザーを検索し、
      * トランザクションで両者を matched に更新して room を作成する。
      */
@@ -132,7 +157,6 @@
 
         return queueCol
             .where('status', '==', 'waiting')
-            .orderBy('enqueuedAt', 'asc')
             .limit(10)
             .get()
             .then(function (snapshot) {
@@ -220,6 +244,8 @@
         var user = requireUser();
         var uid = user.uid;
 
+        // ポーリング停止
+        stopMatchPolling();
         // リスナー解除
         if (unsubscribeQueue) {
             unsubscribeQueue();
@@ -340,6 +366,7 @@
      */
     function cleanup() {
         stopTimer();
+        stopMatchPolling();
 
         if (unsubscribeQueue) {
             unsubscribeQueue();
