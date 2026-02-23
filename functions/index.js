@@ -84,9 +84,15 @@ exports.onQueueWrite = firestoreFn.onDocumentCreated(
               return null;
             }
 
+            // 相手の表示名・アバターを取得
+            var myData = myDoc.data();
+            var partnerData = partnerDoc.data();
+
             // rooms コレクションに新しいルームを作成
             transaction.set(roomRef, {
               participants: [uid, partnerUid],
+              callerUid: partnerUid,
+              calleeUid: uid,
               status: "waiting",
               createdAt: now,
               startedAt: null,
@@ -99,17 +105,21 @@ exports.onQueueWrite = firestoreFn.onDocumentCreated(
               extensionChargeYen: 0
             });
 
-            // 両方のqueueドキュメントの status を 'matched' に更新し roomId を設定
+            // 両方のqueueドキュメントの status を 'matched' に更新（相手情報も設定）
             transaction.update(myRef, {
               status: "matched",
               matchedWith: partnerUid,
-              roomId: roomId
+              roomId: roomId,
+              partnerDisplayName: partnerData.displayName || null,
+              partnerPhotoURL: partnerData.photoURL || null
             });
 
             transaction.update(partnerRef, {
               status: "matched",
               matchedWith: uid,
-              roomId: roomId
+              roomId: roomId,
+              partnerDisplayName: myData.displayName || null,
+              partnerPhotoURL: myData.photoURL || null
             });
 
             console.log("Match committed:", roomId);
